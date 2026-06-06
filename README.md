@@ -1,29 +1,33 @@
 # AICodeSpec — AI 辅助开发规范
 
-一套面向 AI 辅助编码的 Java 后端开发规范文档，确保 AI 生成的代码风格统一、质量可控、可维护。
+一套面向 AI 辅助编码的开发规范文档，涵盖 Java / Kotlin / Python 后端技术栈，确保 AI 生成的代码风格统一、质量可控、可维护。
 
 ## 规范文档
 
 | 文档 | 说明 |
 |------|------|
 | [Java 开发规范](./Java开发规范.md) | 命名、格式、OOP、并发、集合、异常日志等通用 Java 编码规范 |
+| [Kotlin 开发规范](./kotlin开发规范.md) | 源文件结构、命名、格式化、空安全、协程、作用域函数等 Kotlin 惯用规范 |
+| [Python 开发规范](./Python开发规范.md) | 工程结构、类型注解、异步编程、Pydantic、测试、安全等 Python 规范 |
 | [MySQL 数据库设计与开发规范](./MySQL数据库设计与开发规范.md) | 建表规约、索引规范、SQL 编写、ORM 映射等数据库规范 |
 | [Spring Boot + MyBatis Plus 后端开发规范](./Spring%20Boot%20%2B%20MyBatis%20Plus%20后端开发规范.md) | 分层架构、Entity/Mapper/Service/Controller 层编码模板与约定 |
 
 ## 技术栈
 
-- **语言**: Java 17+
-- **框架**: Spring Boot 3.x
-- **ORM**: MyBatis-Plus
+- **语言**: Java 17+ / Kotlin / Python 3.10+
+- **框架**: Spring Boot 3.x / FastAPI / Flask
+- **ORM**: MyBatis-Plus / SQLAlchemy / JPA
 - **数据库**: MySQL 8.0+
-- **工具库**: Lombok / Hutool / MapStruct
-- **构建**: Maven
+- **工具库**: Lombok / Hutool / MapStruct / Pydantic
+- **构建**: Maven / Gradle / Poetry / pip
 
 ## 目录结构
 
 ```
 .
 ├── Java开发规范.md                              # Java 通用规范
+├── kotlin开发规范.md                            # Kotlin 规范
+├── Python开发规范.md                            # Python 规范
 ├── MySQL数据库设计与开发规范.md                    # 数据库规范
 ├── Spring Boot + MyBatis Plus 后端开发规范.md      # 框架层规范
 └── README.md
@@ -61,6 +65,20 @@
 - 类型：decimal 替代 float/double、varchar 不超 5000、utf8mb4 字符集
 - 索引：最左前缀、覆盖索引、禁止左模糊、EXPLAIN 检查执行计划
 - SQL：禁 SELECT *、COUNT(*)、禁超过三表 JOIN、#{} 防注入
+
+### Kotlin 规范
+- 命名：大驼峰类名、小驼峰函数、全大写常量、幕后属性 `_` 前缀
+- 格式：4 空格缩进、K&R 花括号、尾部逗号、120 字符行宽
+- 空安全：禁用 `!!`、优先 `?.` / `?:` / `let`、平台类型显式标注
+- 协程：结构化并发、`withContext` 切换调度器、禁 `GlobalScope`
+- 惯用法：优先 `val` 不可变、默认参数替代重载、`data class` / `sealed class`
+
+### Python 规范
+- 命名：小写下划线模块/函数、大驼峰类、全大写常量、单下划线私有
+- 格式：4 空格缩进、120 字符行宽、按标准库/第三方/本地分组导入
+- 类型：所有公开函数必须有类型注解和 docstring（Google/NumPy 风格）
+- 异步：IO 密集用 `async/await`、CPU 密集用进程池、禁阻塞调用混入协程
+- 质量：`black`/`ruff` 格式化、`mypy` 类型检查、`pytest` 测试、Pydantic 校验
 
 ### Spring Boot + MyBatis Plus 规范
 - 分层：Controller → Service → Mapper，禁止跨层调用
